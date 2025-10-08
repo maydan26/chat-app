@@ -1,198 +1,118 @@
-# Insurance AI Assistant API
+# Insurance AI Assistant
 
-A professional Node.js API server built with **MVC Architecture** that provides simplified answers to insurance-related questions. Designed with senior full-stack developer best practices.
+A full-stack chat application powered by OpenAI GPT-3.5-turbo for answering insurance questions.
 
-## 🏗️ Architecture
+## 🚀 Quick Start
 
-This project follows **Model-View-Controller (MVC)** architecture:
+### **Prerequisites**
+- Node.js 14+ and npm 6+
+- OpenAI API key
 
-- **Models** (`src/models/`) - Handle data and business logic
-- **Controllers** (`src/controllers/`) - Handle HTTP requests and responses  
-- **Routes** (`src/routes/`) - Define API endpoints
-- **Middleware** (`src/middleware/`) - Handle cross-cutting concerns
-- **Config** (`src/config/`) - Application configuration
+### **Setup and Run**
 
-## ✨ Features
-
-- 🏥 Health Insurance questions
-- 🚗 Auto Insurance questions  
-- 💰 Life Insurance questions
-- 📚 General insurance terminology (deductibles, premiums)
-- 🔒 Enterprise-grade security (Helmet, CORS, Rate limiting)
-- ✅ Comprehensive input validation and error handling
-- 📁 Clean, maintainable MVC code structure
-- 🚀 Production-ready with graceful shutdown
-- 📊 Request logging and monitoring
-- ⚙️ Environment-based configuration
-
-## Installation
-
-1. Install dependencies:
+#### **1. Backend Setup**
 ```bash
+# Navigate to server directory
+cd server
+
+# Install dependencies
 npm install
-```
 
-2. Start the server:
-```bash
+# Create environment file and add your OpenAI API key
+cp env.example .env
+# Edit .env and add: OPENAI_API_KEY=your_api_key_here
+
+# Start the server
 npm start
 ```
 
-For development with auto-restart:
+#### **2. Frontend Setup**
 ```bash
+# Navigate to client directory
+cd client
+
+# Install dependencies
+npm install
+
+# Start the development server
 npm run dev
 ```
 
-## API Usage
+#### **3. Access the Application**
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:3000
 
-### Base URL
-```
-http://localhost:3000
-```
+## 🏗️ Design Choices
 
-### Endpoints
+### **Backend Architecture**
+- **Controller-Service-Repository Pattern**: Clean separation of concerns
+  - **Controllers**: Handle HTTP requests/responses
+  - **Services**: Business logic and validation
+  - **Repositories**: Data access (OpenAI API calls)
+- **Functional Programming**: Used pure functions instead of classes for simplicity
+- **Caching**: 5-minute cache for OpenAI responses to reduce API costs
+- **Rate Limiting**: 10 requests/minute per IP on `/api/chat` endpoint to prevent abuse
 
-#### GET /
-Returns API information and available endpoints.
+### **Frontend Architecture**
+- **Component-Based Design**: Reusable components (ChatInput, ChatMessage, ChatWindow)
+- **React Query**: Efficient API state management and caching
+- **TypeScript**: Full type safety with Message interface
+- **Material-UI + SCSS**: Consistent styling with component-level SCSS files
+- **Page-Level State**: Messages managed in Chat page for better control
 
-**Response:**
-```json
-{
-  "message": "Insurance AI Assistant API",
-  "version": "1.0.0",
-  "endpoints": {
-    "POST /api/question": "Submit an insurance question and get a simplified answer"
-  },
-  "examples": [
-    "What is health insurance?",
-    "How does auto insurance work?",
-    "What is a deductible?",
-    "How much life insurance do I need?"
-  ]
-}
-```
+## 🔧 Future Improvements
 
-#### POST /ask
-Submit an insurance question and receive a simplified answer.
+### **Virtualization**
+- Attempted to implement message virtualization using `react-window` for efficient rendering of long conversations
+- Encountered import and runtime compatibility issues that need further investigation
+- Currently using simple `messages.map()` which works well for typical chat sessions
+- Plan to implement virtualization with `@tanstack/react-virtual` or resolve `react-window` issues
 
-**Request Body:**
-```json
-{
-  "question": "What is health insurance?"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "question": "What is health insurance?",
-  "answer": "Health insurance covers medical expenses like doctor visits, hospital stays, and prescriptions. You pay a monthly premium and the insurance helps pay for your healthcare costs.",
-  "timestamp": "2024-01-15T10:30:00.000Z"
-}
-```
-
-**Error Response:**
-```json
-{
-  "error": "Question is required",
-  "message": "Please provide a question in the request body"
-}
-```
-
-## Example Questions
-
-The API can handle these 5 main insurance topics:
-
-1. **"What is health insurance?"** - Learn about medical coverage
-2. **"What is auto insurance?"** - Understand car insurance basics  
-3. **"What is life insurance?"** - Learn about life coverage
-4. **"What is a deductible?"** - Understand out-of-pocket costs
-5. **"What is a premium?"** - Learn about insurance payments
-
-## Testing with cURL
-
-```bash
-# Test the API
-curl -X POST http://localhost:3000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is health insurance?"}'
-
-# Test with different question
-curl -X POST http://localhost:3000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is a deductible?"}'
-```
-
-## Testing with JavaScript/Fetch
-
-```javascript
-// Test the API
-fetch('http://localhost:3000/ask', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    question: 'What is a deductible?'
-  })
-})
-.then(response => response.json())
-.then(data => console.log(data))
-.catch(error => console.error('Error:', error));
-```
-
-## Configuration
-
-- **Port**: Default is 3000, can be changed with `PORT` environment variable
-- **Rate Limiting**: 100 requests per 15 minutes per IP
-- **Request Size**: Limited to 10MB
-- **Question Length**: Maximum 500 characters
-
-## Security Features
-
-- Helmet.js for security headers
-- CORS enabled
-- Rate limiting
-- Input validation
-- Error handling
+### **Security Enhancements**
+- **User Input Sanitization**: Add robust XSS prevention and input sanitization
+- **Content Filtering**: Implement filtering for inappropriate or harmful questions
+- **Enhanced Rate Limiting**: Move to user-based instead of IP-based rate limiting
+- **Authentication**: Add user authentication for personalized chat history
 
 ## 📁 Project Structure
 
 ```
-├── package.json                 # Dependencies and scripts
-├── README.md                    # Documentation
-└── server/                      # Server application
-    ├── server.js               # Main application entry point
-    ├── env.example             # Environment configuration template
-    ├── jest.config.js          # Jest test configuration
-    ├── src/                    # Source code (MVC Architecture)
-    │   ├── models/             # Data and business logic
-    │   │   └── Insurance.js    # Insurance knowledge base model
-    │   ├── controllers/        # Request/response handling
-    │   │   └── QuestionController.js # Question processing controller
-    │   ├── routes/             # API endpoint definitions
-    │   │   ├── index.js        # Main routes configuration
-    │   │   └── questionRoutes.js # Question-specific routes
-    │   ├── middleware/         # Cross-cutting concerns
-    │   │   ├── validation.js   # Input validation middleware
-    │   │   └── errorHandler.js # Error handling middleware
-    │   └── config/             # Application configuration
-    │       └── app.js          # Express app configuration
-    └── tests/                  # Test files
-        ├── ask.test.js         # Route integration tests
-        └── models.test.js      # Model unit tests
+chatApp/
+├── server/              # Node.js + Express backend
+│   ├── src/
+│   │   ├── controllers/  # HTTP handling
+│   │   ├── services/     # Business logic
+│   │   ├── repositories/ # OpenAI API integration
+│   │   ├── models/       # Data models
+│   │   └── routes/       # API endpoints
+│   └── tests/           # Test suite
+└── client/              # React + TypeScript frontend
+    ├── src/
+    │   ├── pages/        # Chat page
+    │   ├── components/   # UI components
+    │   ├── services/     # API client
+    │   └── types.ts      # Type definitions
+    └── package.json
 ```
 
-## Development
+## 🧪 Testing
 
-The server uses a simple keyword matching system to find relevant answers from a predefined knowledge base. The system:
+```bash
+# Run backend tests
+cd server
+npm test
 
-1. Normalizes the input question
-2. Looks for exact matches first
-3. Falls back to partial matches
-4. Uses keyword matching as a last resort
-5. Returns a default response if no match is found
+# Test API manually
+curl -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is health insurance?"}'
+```
 
-## License
+## 📚 API Endpoints
+
+- **POST /api/chat** - Submit a question and get AI-powered answer
+- **GET /api/history** - Retrieve conversation history for current user
+
+## 📄 License
 
 MIT
