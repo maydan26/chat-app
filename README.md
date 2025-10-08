@@ -66,7 +66,6 @@ npm run dev
 - Attempted to implement message virtualization using `react-window` for efficient rendering of long conversations
 - Encountered import and runtime compatibility issues that need further investigation
 - Currently using simple `messages.map()` which works well for typical chat sessions
-- Plan to implement virtualization with `@tanstack/react-virtual` or resolve `react-window` issues
 
 ### **Security Enhancements**
 - **User Input Sanitization**: Add robust XSS prevention and input sanitization
