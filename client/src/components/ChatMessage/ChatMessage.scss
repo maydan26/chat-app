@@ -1,0 +1,35 @@
+.chat-message {
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+
+  &--user {
+    justify-content: flex-end;
+
+    .chat-message__content {
+      background-color: #1976d2;
+      color: white;
+      max-width: 70%;
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+  }
+
+  &--ai {
+    justify-content: flex-start;
+
+    .chat-message__content {
+      background-color: #f5f5f5;
+      color: black;
+      max-width: 70%;
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid #e0e0e0;
+    }
+  }
+
+  &__content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}

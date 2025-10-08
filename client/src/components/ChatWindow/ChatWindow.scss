@@ -1,0 +1,26 @@
+.chat-window {
+  height: 400px;
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+
+  &__messages {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+  }
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    &-text {
+      color: #9e9e9e;
+      text-align: center;
+    }
+  }
+}

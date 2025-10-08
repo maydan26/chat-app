@@ -64,8 +64,9 @@ jspm_packages/
 ehthumbs.db
 Thumbs.db
 
-# Client folder (exclude for now)
-client/
+# Client build files
+client/dist/
+client/node_modules/
 
 # Server specific
 server/node_modules/
