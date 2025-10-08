@@ -10,7 +10,8 @@
  * - Config: Application configuration (src/config/)
  */
 
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const { configureApp, config } = require('./src/config/app');
 const routes = require('./src/routes');
